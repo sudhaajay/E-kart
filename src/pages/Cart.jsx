@@ -1,8 +1,8 @@
 import React, { useEffect, useState } from 'react'
 import { Button } from 'react-bootstrap'
 import { useDispatch, useSelector } from 'react-redux'
-import { removeFromCart } from '../redux/cartSlice';
-import { Link } from 'react-router-dom';
+import { emptyCart, removeFromCart } from '../redux/cartSlice';
+import { Link, useNavigate } from 'react-router-dom';
 
 
 function Cart() {
@@ -10,6 +10,8 @@ function Cart() {
   console.log('====CART ARRAY======');
   console.log(cartArray);
   const dispatch = useDispatch()
+  // hook used to navigate to a particular path or page
+  const navigate = useNavigate()
 
   const [total, setTotal] = useState(0)
   const getTotal = () => {
@@ -23,6 +25,12 @@ function Cart() {
   useEffect(() => {
     getTotal()
   }, [cartArray])
+
+  const handleCart=()=>{
+    alert('thank you... your order placed successfully')
+    dispatch(emptyCart())
+    navigate('/')
+  }
 
 
   return (
@@ -68,7 +76,7 @@ function Cart() {
                   <h3 className='d-flex text-primary align-items-center justify-content-center mb-4'>Cart Summary</h3>
                   <h5>Total number of products: <span className='text-warning fw-bold'>{cartArray?.length}</span></h5>
                   <h5>Total price: <span className='text-warning fw-bold'>{total.toFixed(2)}</span></h5>
-                  <button className='btn btn-success rounded w-100 mt-3'>Checkout</button>
+                  <button className='btn btn-success rounded w-100 mt-3' onClick={handleCart}>Checkout</button>
 
                 </div>
               </div>
